@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  hashedPassword String
+  links ShortUrl[]
+  verificationTokens VerificationToken[]
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShortUrl {
+  id String @id @default(cuid())
+  originalUrl String @db.Text
+  shortCode String @unique
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime?
+  isActive Boolean @default(true)
+  redirectLogs RedirectLog[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RedirectLog {
+  id String @id @default(cuid())
+  shortUrlId String
+  timestamp DateTime @default(now())
+  ipHash String
+  browser String
+  country String @db.Char(2)
+  device String
+  shortUrl ShortUrl @relation(fields: [shortUrlId], references: [id], onDelete: Cascade)
+  @@index([shortUrlId, timestamp])
+}
+
+model VerificationToken {
+  userId String
+  token String @unique
+  expires DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([userId, token])
+}
