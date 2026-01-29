@@ -22,6 +22,20 @@ export const signUpController = async (req: Request, res: Response) => {
     return;
   }
   try {
+    const existingUser = await db.user.findUnique({
+      where: {
+        email: parsedBody.data.email
+      },
+    });
+    if (existingUser) {
+      res.status(409).json({
+        success: false,
+        data: null,
+        error: "User already exists",
+        msg: "A user with this email already exists",
+      });
+      return;
+    }
     const hashedPassword = bcrypt.hashSync(parsedBody.data.password, 8);
     await db.user.create({
       data: {
@@ -60,20 +74,54 @@ export const signInController = async (req: Request, res: Response) => {
     });
     return;
   }
-  const token = jwt.sign(
-    {
-      email: parsedBody.data.email,
-    },
-    process.env.JWT_SECRET!,
-  );
-
-  res.status(200).json({
-    success: true,
-    data: token,
-    error: null,
-    msg: "SignedIn successfully",
-  });
-  return;
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        email: parsedBody.data.email,
+      },
+    });
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        data: null,
+        error: "User not found",
+        msg: "Invalid email or password",
+      });
+      return;
+    }
+    const passwordIsValid = user
+      ? bcrypt.compareSync(parsedBody.data.password, user.hashedPassword)
+      : false;
+    if (!passwordIsValid) {
+      res.status(401).json({
+        success: false,
+        data: null,
+        error: "Invalid password",
+        msg: "Invalid email or password",
+      });
+      return;
+    }
+    const token = jwt.sign(
+      {
+        email: parsedBody.data.email,
+      },
+      process.env.JWT_SECRET!,
+    );
+    res.status(200).json({
+      success: true,
+      data: token,
+      error: null,
+      msg: "SignedIn successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      error: error,
+      msg: "Internal server error, please try again later!",
+    });
+    return;
+  }
 };
 
 // yet to be implemented
