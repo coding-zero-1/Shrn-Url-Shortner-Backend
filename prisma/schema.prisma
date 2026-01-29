@@ -14,7 +14,7 @@ model User {
   hashedPassword String
   links ShortUrl[]
   verificationTokens VerificationToken[]
-  isActive Boolean @default(true)
+  isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
