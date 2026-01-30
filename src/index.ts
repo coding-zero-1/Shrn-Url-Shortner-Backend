@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import userRouter from "./routes/userRoutes";
+import shortLinkRouter from "./routes/shortLinkRoutes";
+import authMiddleware from "./middleware/authMiddleware";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -16,6 +18,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/shortLink", authMiddleware, shortLinkRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
