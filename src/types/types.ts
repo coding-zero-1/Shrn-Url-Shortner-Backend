@@ -12,6 +12,10 @@ export const signinBodySchema = z.object({
 export const verificationBodySchema = z.object({
   token: z.string().min(3).max(10),
 });
+export const generateShortLinkSchema = z.object({
+  originalUrl: z.url(),
+  expiresAt: z.date().optional()
+});
 
 export type SignUpBody = z.infer<typeof signUpBodySchema>;
 export type LoginBody = z.infer<typeof signinBodySchema>;
