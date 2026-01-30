@@ -14,8 +14,15 @@ function authMiddleware(req:Request,res:Response,next:NextFunction){
     try {
         const decodedToken = jwt.verify(token,process.env.JWT_SECRET!) as {email:string};
         req.userEmail = decodedToken.email;
+        next();
     } catch (error) {
-        
+        res.status(401).json({
+            success:false,
+            error:"Invalid or expired token",
+            data:null,
+            msg:"Unauthorized"
+        })
+        return;
     }
 }
 export default authMiddleware;
