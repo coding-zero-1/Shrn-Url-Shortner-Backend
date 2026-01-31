@@ -1,4 +1,4 @@
-# SHRN-v3 - URL Shortener Platform
+# SHRN - URL Shortener Platform
 
 A full-stack URL shortener application with comprehensive analytics, user authentication, and link management capabilities.
 
@@ -17,7 +17,7 @@ A full-stack URL shortener application with comprehensive analytics, user authen
 
 ## 🌟 Overview
 
-SHRN-v3 is a modern URL shortener platform that allows users to create, manage, and track short links with detailed analytics. The application provides geo-location tracking, device detection, and browser analytics for each redirect, giving users valuable insights into their link performance.
+SHRN is a modern URL shortener platform that allows users to create, manage, and track short links with detailed analytics. The application provides geo-location tracking, device detection, and browser analytics for each redirect, giving users valuable insights into their link performance.
 
 ## ✨ Features
 
@@ -72,7 +72,7 @@ SHRN-v3 is a modern URL shortener platform that allows users to create, manage, 
 ## 📁 Project Structure
 
 ```
-shrn-v3/
+shrn/
 ├── backend/
 │   ├── prisma/
 │   │   ├── schema.prisma              # Database schema
@@ -124,7 +124,7 @@ shrn-v3/
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd shrn-v3/backend
+   cd shrn/backend
    ```
 
 2. **Install dependencies**
