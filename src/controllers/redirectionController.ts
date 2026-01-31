@@ -19,7 +19,10 @@ export const redirectionController = async (req: Request, res: Response) => {
   }
   try {
     const shortLink = await db.shortUrl.findUnique({
-      where: { shortCode },
+      where: { 
+        shortCode,
+        isActive: true
+      },
     });
     if (!shortLink) {
       return res.status(404).json({
