@@ -99,15 +99,6 @@ shrn/
 │   ├── GeoLite2-Country.mmdb          # MaxMind geo database
 │   ├── package.json
 │   └── tsconfig.json
-│
-└── frontend/
-    ├── app/
-    │   ├── layout.tsx                 # Root layout
-    │   ├── page.tsx                   # Home page
-    │   └── globals.css                # Global styles
-    ├── public/                        # Static assets
-    ├── package.json
-    └── tsconfig.json
 ```
 
 ## 🚀 Getting Started
