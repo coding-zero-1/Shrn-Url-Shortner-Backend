@@ -106,6 +106,9 @@ export const signInController = async (req: Request, res: Response) => {
         email: parsedBody.data.email,
       },
       process.env.JWT_SECRET!,
+      {
+        expiresIn: "72h"
+      }
     );
     res.status(200).json({
       success: true,
