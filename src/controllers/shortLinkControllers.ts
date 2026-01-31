@@ -268,9 +268,7 @@ export const updateShortLinkController = async (
         id: shortLinkId,
       },
       data: {
-        originalUrl: originalUrl,
         expiresAt: expiresAt,
-        isActive: isActive,
       },
     });
     if (!shortLink) {
@@ -294,6 +292,88 @@ export const updateShortLinkController = async (
       success: false,
       data: null,
       error: "Error deleting short link",
+      msg: "Internal server error",
+    });
+    return;
+  }
+};
+
+export const getShortLinkAnalyticsController = async (
+  req: Request,
+  res: Response,
+) => {
+  const shortLinkId = req.params.shortLinkId as string;
+  if (
+    !shortLinkId ||
+    shortLinkId.trim() === "" ||
+    typeof shortLinkId !== "string"
+  ) {
+    res.status(400).json({
+      success: false,
+      data: null,
+      error: "Missing short link ID",
+      msg: "Bad request",
+    });
+    return;
+  }
+  try {
+    const user = await db.user.findUnique({
+      where: { email: req.userEmail },
+    });
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        data: null,
+        error: "User not found",
+        msg: "Unauthorized",
+      });
+      return;
+    }
+    const totalClicks = await db.redirectLog.count({
+      where: { shortUrlId: shortLinkId },
+    });
+    const clicksByCountry = await db.redirectLog.groupBy({
+      by: ["country"],
+      where: { shortUrlId: shortLinkId },
+      _count: { country: true },
+    });
+    const clicksByBrowser = await db.redirectLog.groupBy({
+      by: ["browser"],
+      where: { shortUrlId: shortLinkId },
+      _count: { browser: true },
+    });
+    const clicksByDevice = await db.redirectLog.groupBy({
+      by: ["device"],
+      where: { shortUrlId: shortLinkId },
+      _count: { device: true },
+    });
+    const analytics = {
+      totalClicks,
+      clicksByCountry: clicksByCountry.map((item) => ({
+        country: item.country,
+        count: item._count.country,
+      })),
+      clicksByBrowser: clicksByBrowser.map((item) => ({
+        browser: item.browser,
+        count: item._count.browser,
+      })),
+      clicksByDevice: clicksByDevice.map((item) => ({
+        device: item.device,
+        count: item._count.device,
+      })),
+    };
+    res.status(200).json({
+      success: true,
+      data: analytics,
+      error: null,
+      msg: "Analytics retrieved successfully",
+    });
+    return;
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      error: "Error retrieving analytics",
       msg: "Internal server error",
     });
     return;
