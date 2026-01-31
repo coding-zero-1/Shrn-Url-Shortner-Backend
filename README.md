@@ -107,14 +107,13 @@ shrn/
 
 - **Bun** 1.0 or higher
 - **PostgreSQL** database
-- **Node.js** 20+ (for frontend)
 - MaxMind GeoLite2 Country database
 
 ### Backend Setup
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/coding-zero-1/Shrn-Url-Shortner-Backend
    cd shrn/backend
    ```
 
