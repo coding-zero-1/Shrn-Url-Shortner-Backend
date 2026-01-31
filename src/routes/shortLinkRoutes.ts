@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../middleware/authMiddleware";
-import { deleteShortLinkController, generateShortLinkController, getAllShortLinksController, getSingleShortLinkController, updateShortLinkController } from "../controllers/shortLinkControllers";
+import { deleteShortLinkController, generateShortLinkController, getAllShortLinksController, getShortLinkAnalyticsController, getSingleShortLinkController, updateShortLinkController } from "../controllers/shortLinkControllers";
 
 const shortLinkRouter = Router();
 
@@ -9,5 +9,6 @@ shortLinkRouter.get("/getAllShortLinks",authMiddleware,getAllShortLinksControlle
 shortLinkRouter.get("/getSingleShortLink/:shortLinkId",authMiddleware,getSingleShortLinkController);
 shortLinkRouter.delete("/deleteShortLink/:shortLinkId",authMiddleware,deleteShortLinkController);
 shortLinkRouter.patch("/updateShortLink/:shortLinkId",authMiddleware,updateShortLinkController);
+shortLinkRouter.get("/getShortLinkAnalytics/:shortLinkId",authMiddleware,getShortLinkAnalyticsController);
 
 export default shortLinkRouter;
