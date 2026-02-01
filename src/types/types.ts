@@ -14,7 +14,7 @@ export const verificationBodySchema = z.object({
 });
 export const generateShortLinkSchema = z.object({
   originalUrl: z.url(),
-  expiresAt: z.date().optional()
+  expiresAt: z.coerce.date().optional(),
 });
 
 export type SignUpBody = z.infer<typeof signUpBodySchema>;
