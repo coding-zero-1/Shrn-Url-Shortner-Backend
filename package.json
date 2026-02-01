@@ -12,7 +12,8 @@
   },
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "start": "bun src/index.ts"
+    "start": "bun src/index.ts",
+    "postinstall": "prisma generate"
   },
   "peerDependencies": {
     "typescript": "^5"
