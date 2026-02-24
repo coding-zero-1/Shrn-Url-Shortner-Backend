@@ -6,6 +6,7 @@
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/bun": "latest",
+    "@types/ioredis": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/maxmind": "^2.0.5",
     "@types/pg": "^8.16.0"
@@ -26,6 +27,7 @@
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "ioredis": "^5.9.3",
     "jsonwebtoken": "^9.0.3",
     "maxmind": "^5.0.3",
     "pg": "^8.17.2",

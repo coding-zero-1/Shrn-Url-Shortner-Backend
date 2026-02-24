@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 
 app.use("/v1/user", userRouter);
-app.use("/re/:shortCode",redirectionController)
+app.use("/re/:shortCode", redirectionController);
 app.use("/v1/shortLink", authMiddleware, shortLinkRouter);
 
 app.listen(PORT, () => {
